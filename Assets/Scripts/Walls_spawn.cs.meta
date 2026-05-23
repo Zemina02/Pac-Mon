@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 82e138bd222ca21439f999f675522258
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - wallGeneralPrefab: {fileID: 6374765302228140885, guid: 587fa18a75bbad441ba851f88f0226bc, type: 3}
+  - wallCondicionadaPrefab: {fileID: 5793400570934959468, guid: 14f56cdb09ac5b24594ad7c93e71a905, type: 3}
+  - wallAntiCantos: {fileID: 8395361772213695272, guid: ce22f16315c5b3e4da53f64af660c587, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
