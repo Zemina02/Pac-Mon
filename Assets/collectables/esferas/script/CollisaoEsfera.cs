@@ -7,7 +7,10 @@ public class CollisaoEsfera : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             Destroy(this.gameObject);
-            GameManager.Instance.pontuacaoModoInfinito += 1;
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.AddScore(10);
+            }
         }
     }
 }
