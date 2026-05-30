@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI scoreText;
     public int pontuacaoModoInfinito;
     private float infiniteTimeAccumulator = 0f;
-
+    
 
     GameObject[] spheres;
     GameObject player;
@@ -141,4 +142,11 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("scoreText não está atribuído no GameManager.");
         }
     }
+
+   public void Vitoria()
+   {
+      Time.timeScale = 1f; // garantir que não fica pausado
+      SceneManager.LoadScene("Victory");
+   }
+
 }
