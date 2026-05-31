@@ -5,11 +5,13 @@ using UnityEngine.AI;
 
 public class PacMon : MonoBehaviour
 {
+    private Vector3 spawnPoint = new Vector3();
     private NavMeshAgent agent;
 
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        spawnPoint = transform.position;
     }
 
     private void Update()
@@ -23,7 +25,6 @@ public class PacMon : MonoBehaviour
         {
              
             UnityEngine.SceneManagement.SceneManager.LoadScene("GameOverScreen");
-            //transform.position = new Vector3(0, 0, 0);
         }
     }
 }

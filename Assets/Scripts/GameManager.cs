@@ -1,10 +1,11 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Unity.AI.Navigation;
 
 public class GameManager : MonoBehaviour
 {
-    
+    public NavMeshSurface navMeshSurface;
     public enum GameMode { Normal, Infinito };
     public GameMode currentGameMode;
     public TextMeshProUGUI ballCountText;
@@ -40,6 +41,7 @@ public class GameManager : MonoBehaviour
             pontuacaoModoInfinito = 0;
             Walls_spawn.Instance.SpawnWalls();
             esferaScript.Instance.spawnSpheres();
+            navMeshSurface.BuildNavMesh();
             UpdateScoreText();
         }
     }
