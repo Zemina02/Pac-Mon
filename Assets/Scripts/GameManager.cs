@@ -5,20 +5,26 @@ using Unity.AI.Navigation;
 
 public class GameManager : MonoBehaviour
 {
-    public NavMeshSurface navMeshSurface;
-    public enum GameMode { Normal, Infinito };
-    public GameMode currentGameMode;
-    public TextMeshProUGUI ballCountText;
-    public TextMeshProUGUI scoreText;
-    public int pontuacaoModoInfinito;
-    private float infiniteTimeAccumulator = 0f;
-    
-
-    GameObject[] spheres;
-    GameObject player;
-    private int currentBallCount = 0;
     public static GameManager Instance;
 
+    public TextMeshProUGUI ballsLeftValue;   // Só o número
+    public TextMeshProUGUI scoreValue;       // Só o número
+
+    public enum GameMode { Normal, Infinito };
+    public GameMode currentGameMode;
+
+    public NavMeshSurface navMeshSurface;
+
+    private int currentBallCount = 0;
+    public int pontuacaoModoInfinito = 0;
+    private float infiniteTimeAccumulator = 0f;
+
+    private GameObject[] spheres;
+    private GameObject player;
+
+    // ---------------------------------------------------------
+    //  AWAKE — Singleton + DontDestroyOnLoad
+    // ---------------------------------------------------------
     private void Awake()
     {
         if (Instance == null)
@@ -32,123 +38,143 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // ---------------------------------------------------------
+    //  SCENE LOADED — Recarregar UI e reiniciar nível
+    // ---------------------------------------------------------
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Só reinicia se for a Scene do nível
+        if (scene.name == "lvl1") // <-- ALTERA PARA O NOME DA TUA SCENE
+        {
+            RecarregarReferencias();
+            ResetarNivel();
+        }
+    }
+
+    // ---------------------------------------------------------
+    //  START — Apenas usado na primeira vez
+    // ---------------------------------------------------------
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+    }
+
+    // ---------------------------------------------------------
+    //  RECARREGAR REFERÊNCIAS DO UI E PLAYER
+    // ---------------------------------------------------------
+    void RecarregarReferencias()
+    {
+        ballsLeftValue = GameObject.Find("BallsLeftValue")?.GetComponent<TextMeshProUGUI>();
+        scoreValue = GameObject.Find("ScoreValue")?.GetComponent<TextMeshProUGUI>();
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
+
+    // ---------------------------------------------------------
+    //  RESETAR NÍVEL
+    // ---------------------------------------------------------
+    void ResetarNivel()
+    {
+        spheres = GameObject.FindGameObjectsWithTag("Spheres");
+        currentBallCount = spheres.Length;
+
+        pontuacaoModoInfinito = 0;
+        infiniteTimeAccumulator = 0f;
+
+        UpdateBallCount(currentBallCount);
+        UpdateScore(pontuacaoModoInfinito);
 
         if (currentGameMode == GameMode.Infinito)
         {
-            pontuacaoModoInfinito = 0;
             Walls_spawn.Instance.SpawnWalls();
             esferaScript.Instance.spawnSpheres();
             navMeshSurface.BuildNavMesh();
-            UpdateScoreText();
         }
     }
 
-    void sphereCount()
-    {
-        spheres = GameObject.FindGameObjectsWithTag("Spheres");
-        int count = (spheres != null) ? spheres.Length : 0;
-        currentBallCount = count;
-        Debug.Log("Number of spheres: " + count);
-        UpdateBallCountText(count);
-    }
-
-    void openDoor()
-    {
-        int sphereCount = spheres.Length;
-
-        if (sphereCount == 0) // Example condition, adjust as needed
-        {
-            Debug.Log("All spheres collected! Door opened.");
-        }
-    }
-
-    void modoInfinitoLogic()
-    {
-        sphereCount();
-        if (spheres.Length == 0)
-        {
-            Debug.Log("Pontuação: " + pontuacaoModoInfinito);
-            esferaScript.Instance.spawnSpheres();
-        }
-    }
-    // Update is called once per frame
+    // ---------------------------------------------------------
+    //  UPDATE — Lógica do modo infinito
+    // ---------------------------------------------------------
     void Update()
     {
         if (currentGameMode == GameMode.Infinito)
         {
-            modoInfinitoLogic();
+            sphereCount();
             HandleInfiniteTime();
         }
         else
         {
             sphereCount();
-            openDoor();
         }
-
     }
 
-    // Garante que a pontuação por tempo acumula mesmo que outras lógicas não sejam chamadas
+    // ---------------------------------------------------------
+    //  CONTAR ESFERAS
+    // ---------------------------------------------------------
+    void sphereCount()
+    {
+        spheres = GameObject.FindGameObjectsWithTag("Spheres");
+        currentBallCount = spheres.Length;
+        UpdateBallCount(currentBallCount);
+    }
+
+    // ---------------------------------------------------------
+    //  UI — Atualizar valores
+    // ---------------------------------------------------------
+    public void UpdateBallCount(int count)
+    {
+        if (ballsLeftValue != null)
+            ballsLeftValue.text = count.ToString();
+    }
+
+    public void UpdateScore(int score)
+    {
+        if (scoreValue != null)
+            scoreValue.text = score.ToString();
+    }
+
+    // ---------------------------------------------------------
+    //  ADICIONAR PONTOS
+    // ---------------------------------------------------------
+    public void AddScore(int amount)
+    {
+        pontuacaoModoInfinito += amount;
+        UpdateScore(pontuacaoModoInfinito);
+    }
+
+    // ---------------------------------------------------------
+    //  PONTUAÇÃO POR TEMPO (modo infinito)
+    // ---------------------------------------------------------
     private void HandleInfiniteTime()
     {
         infiniteTimeAccumulator += Time.deltaTime;
+
         if (infiniteTimeAccumulator >= 1f)
         {
             int seconds = Mathf.FloorToInt(infiniteTimeAccumulator);
             pontuacaoModoInfinito += seconds;
             infiniteTimeAccumulator -= seconds;
-            Debug.Log("Pontuação por tempo: +" + seconds + " (Total: " + pontuacaoModoInfinito + ")");
-            UpdateScoreText();
+
+            UpdateScore(pontuacaoModoInfinito);
         }
     }
 
-    //update ball count text
-    public void UpdateBallCountText(int count)
+    // ---------------------------------------------------------
+    //  VITÓRIA
+    // ---------------------------------------------------------
+    public void Vitoria()
     {
-        if (ballCountText != null)
-        {
-            if (scoreText == null)
-            {
-                ballCountText.text = "Balls Left: " + count.ToString() + "   Score: " + pontuacaoModoInfinito.ToString();
-            }
-            else
-            {
-                ballCountText.text = "Balls Left: " + count.ToString();
-            }
-        }
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("Victory");
     }
-
-        // Adiciona pontos (usado por scripts de coleta)
-        public void AddScore(int amount)
-        {
-          pontuacaoModoInfinito += amount;
-          Debug.Log("Pontuação por coleta: +" + amount + " (Total: " + pontuacaoModoInfinito + ")");
-          UpdateScoreText();
-        }
-
-    // Atualiza o texto de pontuação na UI
-    public void UpdateScoreText()
-    {
-        if (scoreText != null)
-        {
-            scoreText.text = "Score: " + pontuacaoModoInfinito.ToString();
-        }
-        else if (ballCountText != null)
-        {
-            ballCountText.text = "Balls Left: " + currentBallCount.ToString() + "   Score: " + pontuacaoModoInfinito.ToString();
-        }
-        else
-        {
-            Debug.LogWarning("scoreText não está atribuído no GameManager.");
-        }
-    }
-
-   public void Vitoria()
-   {
-      Time.timeScale = 1f; // garantir que não fica pausado
-      SceneManager.LoadScene("Victory");
-   }
-
 }
+
