@@ -17,8 +17,7 @@ public class GameManager : MonoBehaviour
     public NavMeshSurface navMeshSurface;
 
     private int currentBallCount = 0;
-    public int pontuacaoModoInfinito = 0;
-    private float infiniteTimeAccumulator = 0f;
+    public int pontuacaoModoNormal = 0;
 
     private GameObject[] spheres;
     private GameObject player;
@@ -55,25 +54,18 @@ public class GameManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         // Só reinicia se for a Scene do nível
-        if (scene.name == "lvl1") // <-- ALTERA PARA O NOME DA TUA SCENE
+        if (scene.name == "lvl1") 
         {
+            currentGameMode = GameMode.Normal;
             RecarregarReferencias();
             ResetarNivel();
         }
-        if (scene.name == "nivel_ilimitado") // <-- ALTERA PARA O NOME DA TUA SCENE
+        if (scene.name == "nivel_ilimitado") 
         {
-            // Se quiser resetar o jogo ao voltar para a vitória, pode chamar ResetarNivel() aqui também
-            Walls_spawn.Instance.SpawnWalls();
-                esferaScript.Instance.spawnSpheres();
+            currentGameMode = GameMode.Infinito;
+            RecarregarReferencias();
+            ResetarNivel();
         }
-    }
-
-    // ---------------------------------------------------------
-    //  START — Apenas usado na primeira vez
-    // ---------------------------------------------------------
-    void Start()
-    {
-        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     // ---------------------------------------------------------
@@ -94,33 +86,29 @@ public class GameManager : MonoBehaviour
         spheres = GameObject.FindGameObjectsWithTag("Spheres");
         currentBallCount = spheres.Length;
 
-        pontuacaoModoInfinito = 0;
-        infiniteTimeAccumulator = 0f;
-
+        pontuacaoModoNormal = 0;
         UpdateBallCount(currentBallCount);
-        UpdateScore(pontuacaoModoInfinito);
+        UpdateScore(pontuacaoModoNormal);
 
         if (currentGameMode == GameMode.Infinito)
         {
             Walls_spawn.Instance.SpawnWalls();
             esferaScript.Instance.spawnSpheres();
-            navMeshSurface.BuildNavMesh();
+            navMeshSurface.BuildNavMesh();  
         }
     }
 
     // ---------------------------------------------------------
-    //  UPDATE — Lógica do modo infinito
+    //  UPDATE
     // ---------------------------------------------------------
     void Update()
     {
-        if (currentGameMode == GameMode.Infinito)
-        {
-            sphereCount();
-            HandleInfiniteTime();
-        }
-        else
-        {
-            sphereCount();
+        sphereCount();
+        if (currentGameMode == GameMode.Infinito){
+            if (currentBallCount == 0)
+            {
+                esferaScript.Instance.spawnSpheres();
+            }
         }
     }
 
@@ -154,25 +142,8 @@ public class GameManager : MonoBehaviour
     // ---------------------------------------------------------
     public void AddScore(int amount)
     {
-        pontuacaoModoInfinito += amount;
-        UpdateScore(pontuacaoModoInfinito);
-    }
-
-    // ---------------------------------------------------------
-    //  PONTUAÇÃO POR TEMPO (modo infinito)
-    // ---------------------------------------------------------
-    private void HandleInfiniteTime()
-    {
-        infiniteTimeAccumulator += Time.deltaTime;
-
-        if (infiniteTimeAccumulator >= 1f)
-        {
-            int seconds = Mathf.FloorToInt(infiniteTimeAccumulator);
-            pontuacaoModoInfinito += seconds;
-            infiniteTimeAccumulator -= seconds;
-
-            UpdateScore(pontuacaoModoInfinito);
-        }
+        pontuacaoModoNormal += amount;
+        UpdateScore(pontuacaoModoNormal);
     }
 
     // ---------------------------------------------------------
