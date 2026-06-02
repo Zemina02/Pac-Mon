@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
@@ -58,6 +59,12 @@ public class GameManager : MonoBehaviour
         {
             RecarregarReferencias();
             ResetarNivel();
+        }
+        if (scene.name == "nivel_ilimitado") // <-- ALTERA PARA O NOME DA TUA SCENE
+        {
+            // Se quiser resetar o jogo ao voltar para a vitória, pode chamar ResetarNivel() aqui também
+            Walls_spawn.Instance.SpawnWalls();
+                esferaScript.Instance.spawnSpheres();
         }
     }
 
@@ -177,4 +184,3 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Victory");
     }
 }
-

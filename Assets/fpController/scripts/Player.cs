@@ -16,10 +16,10 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.tag == "PacMon")
-        {
-            transform.position = new Vector3(39, 1, 37);
-        }
+        //if (col.gameObject.tag == "PacMon")
+        //{
+        //    transform.position = new Vector3(39, 1, 37);
+        //}
 
         // if (col.gameObject.tag == "Sphere")
         // {

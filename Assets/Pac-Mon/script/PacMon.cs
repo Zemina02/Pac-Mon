@@ -1,30 +1,46 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class PacMon : MonoBehaviour
 {
-    private Vector3 spawnPoint = new Vector3();
     private NavMeshAgent agent;
+    private DeathCutscene deathCutscene;
+    private bool cutsceneStarted = false;
 
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        spawnPoint = transform.position;
+        deathCutscene = FindObjectOfType<DeathCutscene>();
     }
 
     private void Update()
     {
-        agent.SetDestination(GameObject.FindGameObjectWithTag("Player").transform.position);
+        if (cutsceneStarted) return; // impedir movimento durante a cutscene
+
+        Transform player = GameObject.FindGameObjectWithTag("Player").transform;
+        agent.SetDestination(player.position);
     }
 
-    void OnCollisionEnter(Collision col)
+    private void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.CompareTag("Player"))
+        if (col.gameObject.CompareTag("Player") && !cutsceneStarted)
         {
-             
-            UnityEngine.SceneManagement.SceneManager.LoadScene("GameOverScreen");
+            cutsceneStarted = true;
+
+            // parar o inimigo imediatamente
+            agent.isStopped = true;
+            agent.velocity = Vector3.zero;
+
+            // impedir física de empurrar o player
+            Rigidbody rb = GetComponent<Rigidbody>();
+            if (rb != null) rb.isKinematic = true;
+
+            // iniciar cutscene
+            if (deathCutscene != null)
+            {
+                deathCutscene.enemy = transform;
+                deathCutscene.PlayCutscene();
+            }
         }
     }
 }
