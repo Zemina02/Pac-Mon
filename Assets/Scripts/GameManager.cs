@@ -94,63 +94,7 @@ public class GameManager : MonoBehaviour
         {
             Walls_spawn.Instance.SpawnWalls();
             esferaScript.Instance.spawnSpheres();
-            MakeMeshesReadable();
             navMeshSurface.BuildNavMesh();  
-        }
-    }
-
-    // Ensure meshes used as NavMesh sources are readable at runtime
-    void MakeMeshesReadable()
-    {
-        MeshFilter[] mfs = FindObjectsOfType<MeshFilter>();
-        foreach (var mf in mfs)
-        {
-            Mesh src = mf.sharedMesh;
-            if (src == null) continue;
-            bool readable = true;
-            try { readable = src.isReadable; } catch { readable = false; }
-            if (readable) continue;
-
-            try
-            {
-                Mesh newMesh = new Mesh();
-                newMesh.name = src.name + "_copy";
-
-                // copy vertex data
-                newMesh.vertices = src.vertices;
-
-                int subCount = src.subMeshCount;
-                newMesh.subMeshCount = subCount;
-                for (int s = 0; s < subCount; s++)
-                {
-                    newMesh.SetTriangles(src.GetTriangles(s), s);
-                }
-
-                if (src.normals != null && src.normals.Length == src.vertexCount) newMesh.normals = src.normals;
-                if (src.tangents != null && src.tangents.Length == src.vertexCount) newMesh.tangents = src.tangents;
-                if (src.colors != null && src.colors.Length == src.vertexCount) newMesh.colors = src.colors;
-                if (src.uv != null && src.uv.Length == src.vertexCount) newMesh.uv = src.uv;
-                if (src.uv2 != null && src.uv2.Length == src.vertexCount) newMesh.uv2 = src.uv2;
-
-                // skinning data
-                try { newMesh.bindposes = src.bindposes; } catch { }
-                try { newMesh.boneWeights = src.boneWeights; } catch { }
-
-                newMesh.RecalculateBounds();
-
-                // assign to filter and related components
-                mf.sharedMesh = newMesh;
-
-                var mc = mf.GetComponent<MeshCollider>();
-                if (mc != null) mc.sharedMesh = newMesh;
-
-                var smr = mf.GetComponent<SkinnedMeshRenderer>();
-                if (smr != null && smr.sharedMesh == src) smr.sharedMesh = newMesh;
-            }
-            catch (System.Exception e)
-            {
-                Debug.LogWarning($"Failed to deep-clone mesh {src.name}: {e.Message}");
-            }
         }
     }
 
