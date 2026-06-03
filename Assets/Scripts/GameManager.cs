@@ -94,7 +94,7 @@ public class GameManager : MonoBehaviour
         {
             Walls_spawn.Instance.SpawnWalls();
             esferaScript.Instance.spawnSpheres();
-            MakeMeshesReadable();
+            //MakeMeshesReadable();
             navMeshSurface.BuildNavMesh();  
         }
     }
