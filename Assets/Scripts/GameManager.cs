@@ -13,9 +13,6 @@ public class GameManager : MonoBehaviour
 
     public enum GameMode { Normal, Infinito };
     public GameMode currentGameMode;
-
-    public NavMeshSurface navMeshSurface;
-
     private int currentBallCount = 0;
     public int pontuacaoModoNormal = 0;
 
@@ -37,6 +34,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    
 
     // ---------------------------------------------------------
     //  SCENE LOADED — Recarregar UI e reiniciar nível
@@ -95,7 +93,6 @@ public class GameManager : MonoBehaviour
             Walls_spawn.Instance.SpawnWalls();
             esferaScript.Instance.spawnSpheres();
             //MakeMeshesReadable();
-            navMeshSurface.BuildNavMesh();  
         }
     }
 

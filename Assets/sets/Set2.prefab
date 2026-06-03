@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4463227893894714053}
   - component: {fileID: 3986654573418383291}
   - component: {fileID: 7175085879102477210}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: sphere_spawn (2)
   m_TagString: Sphere_spawn
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 6738555357881413516}
   - component: {fileID: 4733813042614276317}
   - component: {fileID: 6528323334754416748}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: sphere_spawn (6)
   m_TagString: Sphere_spawn
   m_Icon: {fileID: 0}
@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 7969827633062276326}
   - component: {fileID: 2457909593078997470}
   - component: {fileID: 2593937578934071097}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: sphere_spawn (7)
   m_TagString: Sphere_spawn
   m_Icon: {fileID: 0}
@@ -279,7 +279,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6432698658290014399}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sphere_spawns_offset (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -411,6 +411,10 @@ PrefabInstance:
     - target: {fileID: 6788965060428874587, guid: 44747a8b1048de741b86e6a82b316c70, type: 3}
       propertyPath: m_Name
       value: sphere_spawn
+      objectReference: {fileID: 0}
+    - target: {fileID: 6788965060428874587, guid: 44747a8b1048de741b86e6a82b316c70, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4133858508151699772}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sphere_spawns_offset (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 5075117405433792833}
   - component: {fileID: 586491249056788412}
   - component: {fileID: 3944892641318635491}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: sphere_spawn (7)
   m_TagString: Sphere_spawn
   m_Icon: {fileID: 0}
@@ -192,7 +192,7 @@ GameObject:
   - component: {fileID: 4509385708762423320}
   - component: {fileID: 6097463163693005329}
   - component: {fileID: 1481220698323970505}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: sphere_spawn (6)
   m_TagString: Sphere_spawn
   m_Icon: {fileID: 0}
@@ -282,7 +282,7 @@ GameObject:
   - component: {fileID: 2702781692758925894}
   - component: {fileID: 4986138215341351732}
   - component: {fileID: 3670699112485270639}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: sphere_spawn (2)
   m_TagString: Sphere_spawn
   m_Icon: {fileID: 0}
@@ -425,6 +425,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: T_wall
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c0963b3fc2019924eac4ba464e83cd51, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -498,6 +502,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 7d075221a23da2d4cb4ecde3596fbee5, type: 3}
       propertyPath: m_Name
       value: Wall
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7d075221a23da2d4cb4ecde3596fbee5, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -573,6 +581,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: L_wall
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e713ec3f7d900dc4b87e8c3d4a743468, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -634,6 +646,10 @@ PrefabInstance:
     - target: {fileID: 6788965060428874587, guid: 44747a8b1048de741b86e6a82b316c70, type: 3}
       propertyPath: m_Name
       value: sphere_spawn
+      objectReference: {fileID: 0}
+    - target: {fileID: 6788965060428874587, guid: 44747a8b1048de741b86e6a82b316c70, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

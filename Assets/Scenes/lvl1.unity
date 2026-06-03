@@ -1459,8 +1459,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88272e81d32af0c45b6ca46419c4fe42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  ballsLeftValue: {fileID: 0}
-  scoreValue: {fileID: 0}
+  ballsLeftValue: {fileID: 1973913010}
+  scoreValue: {fileID: 1034830660}
   currentGameMode: 0
   navMeshSurface: {fileID: 0}
   pontuacaoModoNormal: 0

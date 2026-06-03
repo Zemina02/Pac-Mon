@@ -1362,10 +1362,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88272e81d32af0c45b6ca46419c4fe42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  ballsLeftValue: {fileID: 0}
-  scoreValue: {fileID: 0}
-  currentGameMode: 0
-  navMeshSurface: {fileID: 703934047}
+  ballsLeftValue: {fileID: 1151027690}
+  scoreValue: {fileID: 1303893091}
+  currentGameMode: 1
   pontuacaoModoNormal: 0
 --- !u!1 &701737026
 GameObject:
@@ -2352,6 +2351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82e138bd222ca21439f999f675522258, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Walls_spawn
+  Surface: {fileID: 703934047}
   wallGeneralPrefab: {fileID: 6374765302228140885, guid: 587fa18a75bbad441ba851f88f0226bc, type: 3}
   wallCondicionadaPrefab: {fileID: 5793400570934959468, guid: 14f56cdb09ac5b24594ad7c93e71a905, type: 3}
   wallAntiCantos: {fileID: 8395361772213695272, guid: ce22f16315c5b3e4da53f64af660c587, type: 3}

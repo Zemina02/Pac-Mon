@@ -1,9 +1,12 @@
 using NUnit.Framework;
+using Unity.AI.Navigation;
 using UnityEngine;
 
 public class Walls_spawn : MonoBehaviour
 {
     public static Walls_spawn Instance;
+    public NavMeshSurface Surface;
+
 
     private void Awake()
     {
@@ -91,6 +94,8 @@ public class Walls_spawn : MonoBehaviour
             }
 
         }
+
+        Surface.BuildNavMesh();  
 
     }
 }
